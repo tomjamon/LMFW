@@ -1,0 +1,146 @@
+<html>
+<head>
+    <link type="text/css" rel="stylesheet" href="assets/css/semantic.min.css" media="screen"/>
+    <link type="text/css" rel="stylesheet" href="assets/css/style.min.css" media="screen"/>
+    <link type="text/css" rel="stylesheet" href="assets/css/font-awesome.min.css" media="screen">
+    <style media="screen">
+        .details {
+            display: inline-block;
+            width: 100%;
+            background-color: white;
+            border: 1px solid rgba(34,36,38,.15);
+            padding: 5px;
+        }
+        .details_folder {
+            color:white;
+        }
+        .details_folder > .description {
+            color:white !important;
+        }
+        i {
+            vertical-align: middle !important;
+            color:white;
+            padding: 0 15px !important;
+        }
+        .folder {
+            background-color:#2185d0;
+        }
+        .file {
+            background-color:#00b5ad;
+        }
+        .plus {
+            background-color:#21ba45;
+        }
+        .pencil {
+            background-color:#fbbd08;
+        }
+        body {
+            background-color: #f3f3f3;
+            padding: 10px;
+        }
+        .details_open {
+            background-color: #2185d0;
+        }
+        .folder.details_close {
+            background-color:rgb(71, 150, 210);
+        }
+        .details_folder.details_close {
+            background-color:rgb(71, 150, 210);
+        }
+    </style>
+</head>
+<body style="min-width: 400px">
+
+
+
+
+    <!-- the demo root element -->
+    <ul id="demo" class="ui list">
+      <item
+        class="item"
+        :model="treeData">
+      </item>
+    </ul>
+    <br><br><br><br>
+
+    <!-- item template -->
+    <!-- <script type="text/x-template" id="item-template">
+        <li>
+            <div :class="{bold: isFolder}" @click="toggle"  @dblclick="changeType">
+                {{model.name}}
+                <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
+            </div>
+            <ul v-show="open" v-if="isFolder">
+                <item class="item" v-for="model in model.children" :model="model"></item>
+                <li class="add" @click="addChild">+</li>
+            </ul>
+        </li>
+    </script> -->
+
+    <script type="text/x-template" id="item-template">
+        <div class="item">
+            <i :class="{folder: isFolder, file: !isFolder, details_open: open, details_close: !open}" class="icon"></i>
+            <div class="content">
+                <div class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
+                    <div :class="header">
+                        {{model.name}}
+                        <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
+                    </div>
+                    <div class="description">{{model.link}}</div>
+                </div>
+                <div class="list" v-show="open" v-if="isFolder">
+                    <item class="item" v-for="model in model.children" :model="model"></item>
+                    <!-- -->
+                    <div @click="addChild" class="item add">
+                        <i class="plus icon"></i>
+                        <div class="content">
+                            <div class="details">
+                                <div :class="header">
+                                    Add new project
+                                </div>
+                                <div class="description">Create a new link</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- -->
+                </div>
+            </div>
+            <i class="pencil icon" v-if="!isFolder" class="icon"></i>
+        </div>
+    </script>
+
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Profile Picture
+        </div>
+        <div class="image content">
+            <div class="description">
+                <div class="ui header">We've auto-chosen a profile image for you.</div>
+                <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
+                <p>Is it okay to use this photo?</p>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Cancel
+            </div>
+            <div class="ui positive icon button">
+                Update
+            </div>
+        </div>
+    </div>
+
+
+    <div>Search Bookmarks: <input id="search"></div>
+    <div id="bookmarks"></div>
+    <div id="editdialog"></div>
+    <div id="deletedialog"></div>
+    <div id="adddialog"></div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.json.min.js"></script>
+    <script src="assets/js/vue.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

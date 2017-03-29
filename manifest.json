@@ -1,0 +1,24 @@
+{
+    "manifest_version": 2,
+    "name": "Launch my favorites website",
+    "description": "All bookmarks",
+    "version": "1.1",
+    "icons": {
+        "128": "md128.png",
+        "16": "md16.png",
+        "24": "md24.png",
+        "32": "md32.png",
+        "48": "md48.png",
+        "64": "md64.png"
+    },
+    "permissions": [
+        "bookmarks"
+    ],
+    "options_page": "options.html",
+    "browser_action": {
+        "default_title": "LMFW",
+        "default_icon": "md72.png",
+        "default_popup": "popup.html"
+    },
+
+}
