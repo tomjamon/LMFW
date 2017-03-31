@@ -4,6 +4,13 @@ $(function() {
         $('#bookmarks').empty();
         dumpBookmarks($('#search').val());
     });
+
+    $( "#demo" ).on( "click", "i", function() {
+        console.log( $(this).attr('data-url') );
+        chrome.tabs.create({
+            url : $(this).attr('data-url')
+        });
+    });
 });
 var TreeNodesList = [];
 
