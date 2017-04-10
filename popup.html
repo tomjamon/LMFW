@@ -47,9 +47,15 @@
         .details_folder.details_close {
             background-color:rgb(71, 150, 210);
         }
+        .details .description {
+            display:none !important; /* Temporary fix*/
+        }
+        .header-link {
+            font-size:15px;
+        }
     </style>
 </head>
-<body>
+<body style="min-width:500px;">
     <!-- the demo root element -->
     <ul id="demo" class="ui list">
       <item
@@ -78,7 +84,7 @@
             <i :class="{folder: isFolder, file: !isFolder, details_open: open, details_close: !open}" class="icon"></i>
             <div class="content">
                 <div class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
-                    <div :class="header">
+                    <div :class="header" class="header-link">
                         {{model.name}}
                         <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
                     </div>
