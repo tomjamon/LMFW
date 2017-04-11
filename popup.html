@@ -52,18 +52,21 @@
         }
         .header-link {
             font-size:15px;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body style="min-width:500px;">
     <!-- the demo root element -->
     <ul id="demo" class="ui list">
-      <item
-        class="item"
-        :model="treeData">
-      </item>
+        <div class="ui fluid icon input">
+            <input id="search" type="text" placeholder="Search...">
+            <i class="inverted circular search link icon"></i>
+        </div>
+        <item class="item" :model="treeData"></item>
     </ul>
-    <br><br><br><br>
+
+    <br>
 
     <!-- item template -->
     <!-- <script type="text/x-template" id="item-template">
@@ -80,7 +83,7 @@
     </script> -->
 
     <script type="text/x-template" id="item-template">
-        <div class="item">
+        <div v-if="model.children || model.link" class="item">
             <i :class="{folder: isFolder, file: !isFolder, details_open: open, details_close: !open}" class="icon"></i>
             <div class="content">
                 <div class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
@@ -109,6 +112,7 @@
             </div>
             <i class="eye icon chrome_tab" v-if="!isFolder" data-url="{{model.link}}"></i>
         </div>
+
     </script>
 
     <div class="ui modal">
@@ -134,7 +138,7 @@
     </div>
 
 
-    <div>Search Bookmarks: <input id="search"></div>
+
     <div id="bookmarks"></div>
     <div id="editdialog"></div>
     <div id="deletedialog"></div>
