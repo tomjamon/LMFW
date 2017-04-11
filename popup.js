@@ -198,7 +198,6 @@ function dumpNode(bookmarkNode, query) {
                     this.model.children.length
                 },
                 isVisible: function () {
-                    console.log(this.model.link);
                     return (
                         (this.model.children && (this.model.children.length >1))
                         || (this.model.link !== false)
