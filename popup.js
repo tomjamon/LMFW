@@ -8,49 +8,42 @@ $(function() {
         dumpBookmarks($('#search').val());
     });
 
-    $( "#demo" ).on( "click", "i", function() {
-        console.log( $(this).attr('data-url') );
-        chrome.tabs.create({
-            url : $(this).attr('data-url')
-        });
+    $( "#lmfw" ).on( "click", "i", function() {
+        if( $(this).attr('data-url')){
+            chrome.tabs.create({
+                url : $(this).attr('data-url')
+            });
+        }
     });
 });
-var TreeNodesList = [];
 
-// Traverse the bookmark tree, and print the folder and nodes.
-function dumpBookmarks(query) {
+var TreeNodesList = [];
+var isCreating = true;
+function dumpBookmarks(query)
+{
     console.log("Seaching...");
     var bookmarkTreeNodes = chrome.bookmarks.getTree(
         function(bookmarkTreeNodes) {
-            // console.log(bookmarkTreeNodes);
             TreeNodesList = dumpTreeNodes(bookmarkTreeNodes, query);
-            $('#bookmarks').append(dumpTreeNodes(bookmarkTreeNodes, query));
-
-            var FinalTreeNodesList = [];
-
-            FinalTreeNodesList.push({
-                "name": 'My Treeeeee',
-                "link":"http://my-tree.com",
-                "children": TreeNodesList
-            });
-            loadVue();
-            // console.log(FinalTreeNodesList);
-            // TreeNodesList = $.toJSON(TreeNodesList);
-            // console.log(TreeNodesList);
-
-            // ---
-            // define the item component
-
+            if(isCreating){
+                loadVue();
+                isCreating = false;
+            }
         }
     );
 }
 
-function dumpTreeNodes(bookmarkNodes, query) {
+function dumpTreeNodes(bookmarkNodes, query)
+{
     //var list = $('<ul>');
     var list = [];
     var i;
+    var testIfEmpty;
     for (i = 0; i < bookmarkNodes.length; i++) {
-        list.push(dumpNode(bookmarkNodes[i], query));
+        testIfEmpty = dumpNode(bookmarkNodes[i], query);
+        if(testIfEmpty){
+            list.push(testIfEmpty);
+        }
     }
 
     return list;
@@ -59,27 +52,22 @@ function dumpTreeNodes(bookmarkNodes, query) {
 var top = [];
 
 function dumpNode(bookmarkNode, query) {
+
+    // Check if title exist, otherway take the url as name
     if (!bookmarkNode.title) {
         if(bookmarkNode.url){
-            bookmarkNode.title= "no title";
+            bookmarkNode.title= bookmarkNode.url;
         }
     }
+
     if(!bookmarkNode.url){
-        bookmarkNode.url= "no link";
+        bookmarkNode.url= false;
     }
-    // if (query && !bookmarkNode.children) {
-    //     if (String(bookmarkNode.title).indexOf(query) == -1) {
-    //         return $('<span></span>');
-    //     }
-    // }
 
     var anchor = $('<a>');
     anchor.attr('href', bookmarkNode.url);
     anchor.text(bookmarkNode.title);
-    /*
-    * When clicking on a bookmark in the extension, a new tab is fired with
-    * the bookmark url.
-    */
+
     anchor.click(function() {
         chrome.tabs.create({url: bookmarkNode.url});
     });
@@ -166,7 +154,6 @@ function dumpNode(bookmarkNode, query) {
         }).append(anchor);
         // }
 
-        // var li = $(bookmarkNode.url ? '<li>' : '<div>').append(span);
         var li = [];
         if (bookmarkNode.children && bookmarkNode.children.length > 0) {
             li = {
@@ -174,9 +161,10 @@ function dumpNode(bookmarkNode, query) {
                 "link":bookmarkNode.url,
                 "children":dumpTreeNodes(bookmarkNode.children, query)
             };
-            // li.append(dumpTreeNodes(bookmarkNode.children, query));
         } else {
-            if ((query && !bookmarkNode.children)&&(String(bookmarkNode.title).indexOf(query) == -1)) {
+            if ((query && !bookmarkNode.children)
+                &&((String(bookmarkNode.title).indexOf(query) == -1)
+                &&(String(bookmarkNode.url).indexOf(query) == -1))) {
                 li = false;
             } else {
                 li = {
@@ -187,9 +175,7 @@ function dumpNode(bookmarkNode, query) {
         }
         return li;
     }
-    // console.log( JSON.stringify(data) )
 
-    // console.log( JSON.parse(TreeNodesList) );
     document.addEventListener('DOMContentLoaded', function () {
         dumpBookmarks();
     });
@@ -210,6 +196,13 @@ function dumpNode(bookmarkNode, query) {
                 isFolder: function () {
                     return this.model.children &&
                     this.model.children.length
+                },
+                isVisible: function () {
+                    console.log(this.model.link);
+                    return (
+                        (this.model.children && (this.model.children.length >1))
+                        || (this.model.link !== false)
+                    )
                 }
             },
             methods: {
@@ -236,7 +229,7 @@ function dumpNode(bookmarkNode, query) {
 
         // boot up the demo
         vm = new Vue({
-            el: '#demo',
+            el: '#lmfw',
             data: {
                 treeData: TreeNodesList[0]
             },
@@ -244,6 +237,7 @@ function dumpNode(bookmarkNode, query) {
                 reload: function() {
                     dumpBookmarks($('#search').val())
                     this.treeData = TreeNodesList[0]
+                    console.log(this.treeData);
                 }
             }
         })

@@ -57,11 +57,11 @@
     </style>
 </head>
 <body style="min-width:500px;">
-    <!-- the demo root element -->
-    <ul id="demo" class="ui list">
+
+    <ul id="lmfw" class="ui list">
         <div class="ui fluid icon input">
             <input id="search" type="text" placeholder="Search...">
-            <i class="inverted circular search link icon"></i>
+            <i @click="reload" class="inverted circular search link icon"></i>
         </div>
         <item class="item" :model="treeData"></item>
     </ul>
@@ -83,7 +83,7 @@
     </script> -->
 
     <script type="text/x-template" id="item-template">
-        <div v-if="model.children || model.link" class="item">
+        <div v-show="isVisible" class="item">
             <i :class="{folder: isFolder, file: !isFolder, details_open: open, details_close: !open}" class="icon"></i>
             <div class="content">
                 <div class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
