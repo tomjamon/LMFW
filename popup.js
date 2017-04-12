@@ -159,17 +159,22 @@ function dumpNode(bookmarkNode, query) {
             li = {
                 "name":bookmarkNode.title,
                 "link":bookmarkNode.url,
+                "visible": true,
                 "children":dumpTreeNodes(bookmarkNode.children, query)
             };
         } else {
             if ((query && !bookmarkNode.children)
-                &&((String(bookmarkNode.title).indexOf(query) == -1)
-                &&(String(bookmarkNode.url).indexOf(query) == -1))) {
-                li = false;
+                && ((String(bookmarkNode.title).indexOf(query) == -1)&&(String(bookmarkNode.url).indexOf(query) == -1))) {
+                    li = {
+                        "name":bookmarkNode.title,
+                        "link":bookmarkNode.url,
+                        "visible": false
+                    };
             } else {
                 li = {
                     "name":bookmarkNode.title,
-                    "link":bookmarkNode.url
+                    "link":bookmarkNode.url,
+                    "visible": true
                 };
             }
         }
@@ -199,7 +204,7 @@ function dumpNode(bookmarkNode, query) {
                 },
                 isVisible: function () {
                     return (
-                        (this.model.children && (this.model.children.length >1))
+                        (this.model.children && (this.gotActiveChild))
                         || (this.model.link !== false)
                     )
                 }
@@ -220,7 +225,8 @@ function dumpNode(bookmarkNode, query) {
                 addChild: function () {
                     this.model.children.push({
                         name: 'new stuff',
-                        link: 'http://new-link.com'
+                        link: 'http://new-link.com',
+                        visible: true
                     })
                 }
             }
