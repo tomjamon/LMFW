@@ -177,7 +177,7 @@ function dumpNode(bookmarkNode, query) {
                 "children":dumpTreeNodes(bookmarkNode.children, query)
             };
         } else {
-            if ((query && !bookmarkNode.children)
+            if ((query)
                 && ((String(bookmarkNode.title).indexOf(query) == -1)&&(String(bookmarkNode.url).indexOf(query) == -1))) {
                     li = {
                         "name":bookmarkNode.title,
@@ -230,7 +230,11 @@ function dumpNode(bookmarkNode, query) {
                 },
                 isOpen: function () {
                     if (this.isFolder) {
-                        return true;
+                        if(this.open){
+                            return false;
+                        } else {
+                            return true;
+                        }
                     }
                     return false;
                 },

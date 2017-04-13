@@ -25,14 +25,11 @@
         .folder {
             background-color:#2185d0;
         }
-        .file {
-            background-color:#00b5ad;
-        }
         .plus {
             background-color:#21ba45;
         }
         .eye {
-            background-color:#fbbd08;
+            background-color:#00b5ad;
         }
         body {
             background-color: #f3f3f3;
@@ -60,7 +57,7 @@
 
     <ul id="lmfw" class="ui list">
         <div class="ui fluid icon input">
-            <input @keyup.enter="reload" id="search" type="text" placeholder="Search...">
+            <input @keyup.enter="reload" id="search" type="text" placeholder="Search than press enter...">
             <i @click="reload" class="inverted circular search link icon"></i>
         </div>
         <item class="item" :model="treeData"></item>
@@ -84,7 +81,8 @@
 
     <script type="text/x-template" id="item-template">
         <div v-show="isVisible" class="item">
-            <i :class="{folder: isFolder, file: !isFolder, details_open: open, details_close: !open}" class="icon"></i>
+            <i v-if="isFolder" :class="{folder: isFolder, details_open: open, details_close: !open}" class="icon"></i>
+            <i class="eye icon chrome_tab" v-if="!isFolder" data-url="{{model.link}}"></i>
             <div class="content">
                 <div class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
                     <div :class="header" class="header-link">
@@ -110,7 +108,6 @@
                     <!-- -->
                 </div>
             </div>
-            <i class="eye icon chrome_tab" v-if="!isFolder" data-url="{{model.link}}"></i>
         </div>
 
     </script>
