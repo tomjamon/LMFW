@@ -60,7 +60,7 @@
 
     <ul id="lmfw" class="ui list">
         <div class="ui fluid icon input">
-            <input id="search" type="text" placeholder="Search...">
+            <input @keyup.enter="reload" id="search" type="text" placeholder="Search...">
             <i @click="reload" class="inverted circular search link icon"></i>
         </div>
         <item class="item" :model="treeData"></item>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="description">{{model.link}}</div>
                 </div>
-                <div class="list" v-show="open" v-if="isFolder">
+                <div class="list" v-show="isOpen" v-if="isFolder">
                     <item class="item" v-for="model in model.children" :model="model"></item>
                     <!-- -->
                     <div @click="addChild" class="item add">

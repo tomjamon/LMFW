@@ -21,7 +21,6 @@ var TreeNodesList = [];
 var isCreating = true;
 function dumpBookmarks(query)
 {
-    console.log("Seaching...");
     var bookmarkTreeNodes = chrome.bookmarks.getTree(
         function(bookmarkTreeNodes) {
             TreeNodesList = dumpTreeNodes(bookmarkTreeNodes, query);
@@ -29,8 +28,23 @@ function dumpBookmarks(query)
                 loadVue();
                 isCreating = false;
             }
+            hide_child(TreeNodesList[0]);
         }
     );
+    return TreeNodesList[0];
+}
+
+function hide_child(array) {
+    array['visible'] = false;
+    for (var i = 0; i < array["children"].length; i++) {
+        if((typeof array["children"][i]["children"] != 'undefined')&&(array["children"][i]["children"].length > 0)) {
+            hide_child(array["children"][i]);
+        }
+        if(array['children'][i]["visible"]){
+            array['visible'] = true;
+        }
+    }
+    return true;
 }
 
 function dumpTreeNodes(bookmarkNodes, query)
@@ -190,7 +204,8 @@ function dumpNode(bookmarkNode, query) {
         Vue.component('item', {
             template: '#item-template',
             props: {
-                model: Object
+                model: Object,
+                treeData : Object
             },
             data: function () {
                 return {
@@ -204,16 +219,41 @@ function dumpNode(bookmarkNode, query) {
                 },
                 isVisible: function () {
                     return (
+                        this.model.visible
+                    )
+                    /*
+                    return (
                         (this.model.children && (this.gotActiveChild))
                         || (this.model.link !== false)
                     )
-                }
+                     */
+                },
+                isOpen: function () {
+                    if (this.isFolder) {
+                        return true;
+                    }
+                    return false;
+                },
+                treeData : TreeNodesList[0]
             },
             methods: {
                 toggle: function () {
                     if (this.isFolder) {
                         this.open = !this.open
                     }
+                },
+                gotActiveChild : function() {
+                    visible = false;
+                    if ((this.model.children.length >1)) {
+
+                        /*for (child) in (this.model.children) {
+                            if (child.visible) {
+                                visible = true;
+                            }
+                        }*/
+                        visible = true;
+                    }
+                    return visible;
                 },
                 changeType: function () {
                     if (!this.isFolder) {
@@ -240,9 +280,9 @@ function dumpNode(bookmarkNode, query) {
             },
             methods: {
                 reload: function() {
-                    dumpBookmarks($('#search').val())
-                    this.treeData = TreeNodesList[0]
+                    this.treeData = dumpBookmarks($('#search').val());
                     console.log(this.treeData);
+                    // console.log("Updated");
                 }
             }
         })
