@@ -198,6 +198,19 @@ function dumpNode(bookmarkNode, query) {
         return li;
     }
 
+    function createChild(parentId) {
+        chrome.bookmarks.create({
+            'parentId': parentId,
+            'title': 'new stuff',
+            'url': 'http://new-link.com'
+        },
+        function(result) {
+            console.log(result.id);
+            var my_result = result.id;
+            return my_result;
+        });
+    };
+
     document.addEventListener('DOMContentLoaded', function () {
         dumpBookmarks();
     });
@@ -271,15 +284,15 @@ function dumpNode(bookmarkNode, query) {
                 // },
                 addChild: function () {
                     this.model.children.push({
+                        id: createChild(this.model.id),
                         name: 'new stuff',
                         link: 'http://new-link.com',
                         visible: true
                     })
-                    chrome.bookmarks.create({
-                        'parentId': this.model.id,
-                        'title': 'new stuff',
-                        'url': 'http://new-link.com',
-                    })
+                },
+                removeChild: function(){
+                    chrome.bookmarks.remove(this.model.id);
+                    this.model=null;
                 }
             }
         })
@@ -294,7 +307,6 @@ function dumpNode(bookmarkNode, query) {
                 reload: function() {
                     this.treeData = dumpBookmarks($('#search').val());
                     console.log(this.treeData);
-                    // console.log("Updated");
                 }
             }
         })

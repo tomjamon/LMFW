@@ -89,12 +89,12 @@
         <div v-show="isVisible" class="item">
             <i v-if="isFolder" :class="{folder: isFolder, details_open: open, details_close: !open}" class="icon"></i>
             <i class="eye icon chrome_tab" v-if="!isFolder" data-url="{{model.link}}"></i>
-            <i class="pencil icon chrome_tab"></i>
-            <i class="remove icon chrome_tab"></i>
+            <i v-if="model.id" class="pencil icon chrome_tab"></i>
+            <i @click="removeChild" v-if="model.id" class="remove icon chrome_tab"></i>
             <div class="content">
                 <div class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
                     <div :class="header" class="header-link">
-                        {{model.name}}
+                        {{model.name}} ({{model.id}})
                         <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
                     </div>
                     <div class="description">{{model.link}}</div>
