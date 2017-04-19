@@ -291,7 +291,11 @@ function dumpNode(bookmarkNode, query) {
                     })
                 },
                 removeChild: function(){
-                    chrome.bookmarks.remove(this.model.id);
+                    if (this.isFolder) {
+                        chrome.bookmarks.removeTree(this.model.id);
+                    } else {
+                        chrome.bookmarks.remove(this.model.id);
+                    }
                     this.model=null;
                 }
             }
