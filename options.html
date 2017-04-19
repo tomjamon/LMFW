@@ -25,14 +25,11 @@
         .folder {
             background-color:#2185d0;
         }
-        .file {
-            background-color:#00b5ad;
-        }
         .plus {
             background-color:#21ba45;
         }
-        .pencil {
-            background-color:#fbbd08;
+        .eye {
+            background-color:#00b5ad;
         }
         body {
             background-color: #f3f3f3;
@@ -47,17 +44,26 @@
         .details_folder.details_close {
             background-color:rgb(71, 150, 210);
         }
+        .details .description {
+            display:none !important; /* Temporary fix*/
+        }
+        .header-link {
+            font-size:15px;
+            white-space: nowrap;
+        }
     </style>
 </head>
-<body>
-    <!-- the demo root element -->
-    <ul id="demo" class="ui list">
-      <item
-        class="item"
-        :model="treeData">
-      </item>
+<body style="min-width:600px;">
+
+    <ul id="lmfw" class="ui list">
+        <div class="ui fluid icon input">
+            <input @keyup.enter="reload" id="search" type="text" placeholder="Search than press enter...">
+            <i @click="reload" class="inverted circular search link icon"></i>
+        </div>
+        <item class="item" :model="treeData"></item>
     </ul>
-    <br><br><br><br>
+
+    <br>
 
     <!-- item template -->
     <!-- <script type="text/x-template" id="item-template">
@@ -74,20 +80,21 @@
     </script> -->
 
     <script type="text/x-template" id="item-template">
-        <div class="item">
-            <i :class="{folder: isFolder, file: !isFolder, details_open: open, details_close: !open}" class="icon"></i>
+        <div v-show="isVisible" class="item">
+            <i v-if="isFolder" :class="{folder: isFolder, details_open: open, details_close: !open}" class="icon"></i>
+            <i class="eye icon chrome_tab" v-if="!isFolder" data-url="{{model.link}}"></i>
             <div class="content">
                 <div class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
-                    <div :class="header">
+                    <div :class="header" class="header-link">
                         {{model.name}}
                         <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
                     </div>
                     <div class="description">{{model.link}}</div>
                 </div>
-                <div class="list" v-show="open" v-if="isFolder">
+                <div class="list" v-show="isOpen" v-if="isFolder">
                     <item class="item" v-for="model in model.children" :model="model"></item>
                     <!-- -->
-                    <div @click="addChild" class="item add">
+                    <!-- <div @click="addChild" class="item add">
                         <i class="plus icon"></i>
                         <div class="content">
                             <div class="details">
@@ -97,12 +104,12 @@
                                 <div class="description">Create a new link</div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- -->
                 </div>
             </div>
-            <i class="pencil icon" v-if="!isFolder" class="icon"></i>
         </div>
+
     </script>
 
     <div class="ui modal">
@@ -128,7 +135,7 @@
     </div>
 
 
-    <div>Search Bookmarks: <input id="search"></div>
+
     <div id="bookmarks"></div>
     <div id="editdialog"></div>
     <div id="deletedialog"></div>
