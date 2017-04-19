@@ -31,6 +31,12 @@
         .eye {
             background-color:#00b5ad;
         }
+        .pencil {
+            background-color:#f1b418;
+        }
+        .remove {
+            background-color:#f14c18;
+        }
         body {
             background-color: #f3f3f3;
             padding: 10px;
@@ -83,6 +89,8 @@
         <div v-show="isVisible" class="item">
             <i v-if="isFolder" :class="{folder: isFolder, details_open: open, details_close: !open}" class="icon"></i>
             <i class="eye icon chrome_tab" v-if="!isFolder" data-url="{{model.link}}"></i>
+            <i class="pencil icon chrome_tab"></i>
+            <i class="remove icon chrome_tab"></i>
             <div class="content">
                 <div class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
                     <div :class="header" class="header-link">
