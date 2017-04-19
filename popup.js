@@ -171,6 +171,7 @@ function dumpNode(bookmarkNode, query) {
         var li = [];
         if (bookmarkNode.children && bookmarkNode.children.length > 0) {
             li = {
+                "id":bookmarkNode.id,
                 "name":bookmarkNode.title,
                 "link":bookmarkNode.url,
                 "visible": true,
@@ -180,12 +181,14 @@ function dumpNode(bookmarkNode, query) {
             if ((query)
                 && ((String(bookmarkNode.title).indexOf(query) == -1)&&(String(bookmarkNode.url).indexOf(query) == -1))) {
                     li = {
+                        "id":bookmarkNode.id,
                         "name":bookmarkNode.title,
                         "link":bookmarkNode.url,
                         "visible": false
                     };
             } else {
                 li = {
+                    "id":bookmarkNode.id,
                     "name":bookmarkNode.title,
                     "link":bookmarkNode.url,
                     "visible": true
@@ -259,18 +262,23 @@ function dumpNode(bookmarkNode, query) {
                     }
                     return visible;
                 },
-                changeType: function () {
-                    if (!this.isFolder) {
-                        Vue.set(this.model, 'children', [])
-                        this.addChild()
-                        this.open = true
-                    }
-                },
+                // changeType: function () {
+                //     if (!this.isFolder) {
+                //         Vue.set(this.model, 'children', [])
+                //         this.addChild()
+                //         this.open = true
+                //     }
+                // },
                 addChild: function () {
                     this.model.children.push({
                         name: 'new stuff',
                         link: 'http://new-link.com',
                         visible: true
+                    })
+                    chrome.bookmarks.create({
+                        'parentId': this.model.id,
+                        'title': 'new stuff',
+                        'url': 'http://new-link.com',
                     })
                 }
             }
