@@ -8,11 +8,21 @@
             display: inline-block;
             width: 100%;
             background-color: white;
-            border: 1px solid rgba(34,36,38,.15);
-            padding: 5px;
+            padding: 10px;
+            border-radius:2px;
+        }
+        #lmfw {
+            overflow:hidden;
+        }
+        .righticon {
+            display:inline-block;
+            float: right;
+            position: absolute;
+            height:54px;
         }
         .details_folder {
             color:white;
+            margin:0 !important;
         }
         .details_folder > .description {
             color:white !important;
@@ -24,12 +34,25 @@
         }
         .folder {
             background-color:#2185d0;
+            border-radius:2px;
         }
         .plus {
             background-color:#21ba45;
         }
         .eye {
-            background-color:#00b5ad;
+            /*color:#00b5ad;*/
+            color:#eaeaea;
+            right: 90px;
+        }
+        .pencil {
+            /*color:#f1b418;*/
+            color:#eaeaea;
+            right: 60px;
+        }
+        .remove {
+            /*color:#f14c18;*/
+            color:#eaeaea;
+            right: 30px;
         }
         body {
             background-color: #f3f3f3;
@@ -50,6 +73,27 @@
         .header-link {
             font-size:15px;
             white-space: nowrap;
+            font-weight: 600;
+        }
+        .item {
+            margin: 5px
+        }
+        .details {
+            margin:5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        }
+        .circular {
+            opacity:0.5;
+            top:0.55em !important;
+            right:0.85em !important;
+            color: #b1b1b1;
+            box-shadow:none !important;
+            font-size:1.25em !important;
+        }
+        #search {
+            padding:17px;
+            margin-left:5px;
         }
     </style>
 </head>
@@ -58,7 +102,7 @@
     <ul id="lmfw" class="ui list">
         <div class="ui fluid icon input">
             <input @keyup.enter="reload" id="search" type="text" placeholder="Search than press enter...">
-            <i @click="reload" class="inverted circular search link icon"></i>
+            <i @click="reload" class="circular search link icon"></i>
         </div>
         <item class="item" :model="treeData"></item>
     </ul>
@@ -82,59 +126,22 @@
     <script type="text/x-template" id="item-template">
         <div v-show="isVisible" class="item">
             <i v-if="isFolder" :class="{folder: isFolder, details_open: open, details_close: !open}" class="icon"></i>
-            <i class="eye icon chrome_tab" v-if="!isFolder" data-url="{{model.link}}"></i>
             <div class="content">
-                <div class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
+                <div data-url="{{model.link}}"  class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
                     <div :class="header" class="header-link">
                         {{model.name}}
                         <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
                     </div>
-                    <div class="description">{{model.link}}</div>
+                    <div class="description">
+                        <span>{{model.link}}</span>
+                    </div>
                 </div>
                 <div class="list" v-show="isOpen" v-if="isFolder">
                     <item class="item" v-for="model in model.children" :model="model"></item>
-                    <!-- -->
-                    <!-- <div @click="addChild" class="item add">
-                        <i class="plus icon"></i>
-                        <div class="content">
-                            <div class="details">
-                                <div :class="header">
-                                    Add new project
-                                </div>
-                                <div class="description">Create a new link</div>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- -->
                 </div>
             </div>
         </div>
-
     </script>
-
-    <div class="ui modal">
-        <i class="close icon"></i>
-        <div class="header">
-            Profile Picture
-        </div>
-        <div class="image content">
-            <div class="description">
-                <div class="ui header">We've auto-chosen a profile image for you.</div>
-                <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
-                <p>Is it okay to use this photo?</p>
-            </div>
-        </div>
-        <div class="actions">
-            <div class="ui black deny button">
-                Cancel
-            </div>
-            <div class="ui positive icon button">
-                Update
-            </div>
-        </div>
-    </div>
-
-
 
     <div id="bookmarks"></div>
     <div id="editdialog"></div>

@@ -15,6 +15,16 @@ $(function() {
             });
         }
     });
+    
+    // For Popup
+    $( "#lmfw" ).on( "click", ".details", function() {
+        if( $(this).attr('data-url')){
+            chrome.tabs.create({
+                url : $(this).attr('data-url')
+            });
+        }
+    });
+
 });
 
 var TreeNodesList = [];
