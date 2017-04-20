@@ -133,7 +133,8 @@
                         <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
                     </div>
                     <div class="description">
-                        <span>{{model.link}}</span>
+                        <span v-if="!isFolder">{{model.link}}</span>
+                        <span v-if="isFolder">/////////////////////</span>
                     </div>
                 </div>
                 <div class="list" v-show="isOpen" v-if="isFolder">

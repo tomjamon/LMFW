@@ -15,7 +15,7 @@ $(function() {
             });
         }
     });
-    
+
     // For Popup
     $( "#lmfw" ).on( "click", ".details", function() {
         if( $(this).attr('data-url')){
