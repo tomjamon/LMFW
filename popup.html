@@ -3,99 +3,6 @@
     <link type="text/css" rel="stylesheet" href="assets/css/semantic.min.css" media="screen"/>
     <link type="text/css" rel="stylesheet" href="assets/css/style.min.css" media="screen"/>
     <link type="text/css" rel="stylesheet" href="assets/css/font-awesome.min.css" media="screen">
-    <style media="screen">
-        .details {
-            display: inline-block;
-            width: 100%;
-            background-color: white;
-            padding: 10px;
-            border-radius:2px;
-        }
-        #lmfw {
-            overflow:hidden;
-        }
-        .righticon {
-            display:inline-block;
-            float: right;
-            position: absolute;
-            height:54px;
-        }
-        .details_folder {
-            color:white;
-            margin:0 !important;
-        }
-        .details_folder > .description {
-            color:white !important;
-        }
-        i {
-            vertical-align: middle !important;
-            color:white;
-            padding: 0 15px !important;
-        }
-        .folder {
-            background-color:#2185d0;
-            border-radius:2px;
-        }
-        .plus {
-            background-color:#21ba45;
-        }
-        .eye {
-            /*color:#00b5ad;*/
-            color:#eaeaea;
-            right: 90px;
-        }
-        .pencil {
-            /*color:#f1b418;*/
-            color:#eaeaea;
-            right: 60px;
-        }
-        .remove {
-            /*color:#f14c18;*/
-            color:#eaeaea;
-            right: 30px;
-        }
-        body {
-            background-color: #f3f3f3;
-            padding: 10px;
-        }
-        .details_open {
-            background-color: #2185d0;
-        }
-        .folder.details_close {
-            background-color:rgb(71, 150, 210);
-        }
-        .details_folder.details_close {
-            background-color:rgb(71, 150, 210);
-        }
-        /*.details .description {*/
-            /*display:none !important; /* Temporary fix*/
-        /*}*/
-        .header-link {
-            font-size:15px;
-            white-space: nowrap;
-            font-weight: 600;
-        }
-        .item {
-            margin: 5px
-        }
-        .details {
-            margin:5px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-        }
-        .circular {
-            opacity:0.5;
-            top:0.55em !important;
-            right:0.85em !important;
-            color: #b1b1b1;
-            box-shadow:none !important;
-            font-size:1.25em !important;
-        }
-        #search {
-            padding:17px;
-            margin-left:5px;
-        }
-    </style>
 </head>
 <body style="min-width:600px;">
 
@@ -106,28 +13,13 @@
         </div>
         <item class="item" :model="treeData"></item>
     </ul>
-
     <br>
-
-    <!-- item template -->
-    <!-- <script type="text/x-template" id="item-template">
-        <li>
-            <div :class="{bold: isFolder}" @click="toggle"  @dblclick="changeType">
-                {{model.name}}
-                <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
-            </div>
-            <ul v-show="open" v-if="isFolder">
-                <item class="item" v-for="model in model.children" :model="model"></item>
-                <li class="add" @click="addChild">+</li>
-            </ul>
-        </li>
-    </script> -->
-
     <script type="text/x-template" id="item-template">
         <div v-show="isVisible" class="item">
             <i v-if="isFolder" :class="{folder: isFolder, details_open: open, details_close: !open}" class="icon"></i>
             <div class="content">
                 <div data-url="{{model.link}}"  class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
+                    <img v-if="!isFolder" class="gfavicon" src="https://www.google.com/s2/favicons?domain={{model.link}}" alt="">
                     <div :class="header" class="header-link">
                         {{model.name}}
                         <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
@@ -143,15 +35,10 @@
             </div>
         </div>
     </script>
-
-    <div id="bookmarks"></div>
-    <div id="editdialog"></div>
-    <div id="deletedialog"></div>
-    <div id="adddialog"></div>
-
+    <!-- JS -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/jquery.json.min.js"></script>
     <script src="assets/js/vue.js"></script>
-    <script src="popup.js"></script>
+    <script src="assets/js/popup.min.js"></script>
 </body>
 </html>

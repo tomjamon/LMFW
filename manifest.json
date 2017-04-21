@@ -1,22 +1,30 @@
 {
-    "manifest_version": 2,
-    "name": "Launch my favorites website",
-    "description": "All bookmarks",
-    "version": "1.1",
-    "icons": {
+    "manifest_version" : 2,
+    "name" : "LMFW",
+    "description" : "Manage and launch your bookmarks in a new way",
+    "version" : "1.0",
+    "icons" : {
         "128": "md128.png",
         "16": "md16.png",
         "32": "md32.png",
         "48": "md48.png",
         "64": "md64.png"
     },
-    "permissions": [
+    "permissions" : [
         "bookmarks"
     ],
-    "options_page": "options.html",
-    "browser_action": {
-        "default_title": "LMFW",
-        "default_icon": "md64.png",
-        "default_popup": "popup.html"
+    "options_page" : "options.html",
+    "browser_action" : {
+        "default_title" : "LMFW",
+        "default_icon" : "md64.png",
+        "default_popup" : "popup.html"
+    },
+    "commands" : {
+        "_execute_browser_action" : {
+            "suggested_key" : {
+                "default" : "Ctrl+Shift+2"
+            },
+            "description" : "Open the bookmark launcher"
+        }
     }
 }
