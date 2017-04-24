@@ -16,7 +16,11 @@ $(function() {
     $( "#lmfw" ).on( "click", ".pencil", function() {
         $("#bookmark_id").val( $(this).attr('data-id') );
         $("#bookmark_title").val( $(this).attr('data-title') );
-        $("#bookmark_link").val( $(this).attr('data-link') );
+        if ($(this).attr('data-link')) {
+            $("#bookmark_link").val( $(this).attr('data-link') );
+        } else {
+            $("#bookmark_link").hide();
+        }
         $('.ui.modal').modal('show');
     });
 
@@ -116,6 +120,7 @@ function dumpNode(bookmarkNode, query)
                 "id":bookmarkNode.id,
                 "name":bookmarkNode.title,
                 "link":bookmarkNode.url,
+                "children": [],
                 "visible": false
             };
         } else {
@@ -123,6 +128,7 @@ function dumpNode(bookmarkNode, query)
                 "id":bookmarkNode.id,
                 "name":bookmarkNode.title,
                 "link":bookmarkNode.url,
+                "children": [],
                 "visible": true
             };
         }
@@ -140,6 +146,7 @@ function createChild(parentId) {
         var my_result = result.id;
         return my_result;
     });
+    location.reload();
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -160,8 +167,12 @@ function loadVue(){
         },
         computed: {
             isFolder: function () {
-                return this.model.children &&
-                this.model.children.length
+                if (!this.model.link) {
+                    return 1;
+                } else {
+                    return this.model.children &&
+                    this.model.children.length
+                }
             },
             isVisible: function () {
                 return (
