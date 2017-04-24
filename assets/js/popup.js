@@ -120,6 +120,7 @@ function dumpNode(bookmarkNode, query)
                 "id":bookmarkNode.id,
                 "name":bookmarkNode.title,
                 "link":bookmarkNode.url,
+                "children": [],
                 "visible": false
             };
         } else {
@@ -127,6 +128,7 @@ function dumpNode(bookmarkNode, query)
                 "id":bookmarkNode.id,
                 "name":bookmarkNode.title,
                 "link":bookmarkNode.url,
+                "children": [],
                 "visible": true
             };
         }
@@ -164,8 +166,12 @@ function loadVue(){
         },
         computed: {
             isFolder: function () {
-                return this.model.children &&
-                this.model.children.length
+                if (!this.model.link) {
+                    return 1;
+                } else {
+                    return this.model.children &&
+                    this.model.children.length
+                }
             },
             isVisible: function () {
                 return (
