@@ -16,7 +16,11 @@ $(function() {
     $( "#lmfw" ).on( "click", ".pencil", function() {
         $("#bookmark_id").val( $(this).attr('data-id') );
         $("#bookmark_title").val( $(this).attr('data-title') );
-        $("#bookmark_link").val( $(this).attr('data-link') );
+        if ($(this).attr('data-link')) {
+            $("#bookmark_link").val( $(this).attr('data-link') );
+        } else {
+            $("#bookmark_link").hide();
+        }
         $('.ui.modal').modal('show');
     });
 
