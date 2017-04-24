@@ -146,6 +146,7 @@ function createChild(parentId) {
         var my_result = result.id;
         return my_result;
     });
+    location.reload();
 };
 
 document.addEventListener('DOMContentLoaded', function () {
