@@ -7,7 +7,7 @@
 <body>
     <ul id="lmfw" class="ui list">
         <div class="ui fluid icon input">
-            <input @keyup.enter="reload" id="search" type="text" placeholder="Search than press enter...">
+            <input @keyup.enter="reload" autofocus id="search" type="text" placeholder="Search than press enter...">
             <i @click="reload" class="circular search link icon"></i>
         </div>
         <item class="item" :model="treeData"></item>
