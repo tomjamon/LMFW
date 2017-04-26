@@ -13,6 +13,9 @@
     "permissions" : [
         "bookmarks"
     ],
+    "chrome_url_overrides" : {
+        "bookmarks": "options.html"
+    },
     "options_page" : "options.html",
     "browser_action" : {
         "default_title" : "LMFW",
