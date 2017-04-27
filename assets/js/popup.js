@@ -106,11 +106,19 @@ function dumpNode(bookmarkNode, query)
     }
 
     var li = [];
+
+    // Favicon Base URL
+    if (bookmarkNode.url) {
+        var favicon = String(bookmarkNode.url).split( '/' );
+        favicon = favicon[0] + '//' + favicon[2];
+    }
+
     if (bookmarkNode.children && bookmarkNode.children.length > 0) {
         li = {
             "id":bookmarkNode.id,
             "name":bookmarkNode.title,
             "link":bookmarkNode.url,
+            "favicon":favicon,
             "visible": true,
             "children":dumpTreeNodes(bookmarkNode.children, query)
         };
@@ -120,6 +128,7 @@ function dumpNode(bookmarkNode, query)
                 "id":bookmarkNode.id,
                 "name":bookmarkNode.title,
                 "link":bookmarkNode.url,
+                "favicon":favicon,
                 "children": [],
                 "visible": false
             };
@@ -128,6 +137,7 @@ function dumpNode(bookmarkNode, query)
                 "id":bookmarkNode.id,
                 "name":bookmarkNode.title,
                 "link":bookmarkNode.url,
+                "favicon":favicon,
                 "children": [],
                 "visible": true
             };

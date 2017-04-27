@@ -19,7 +19,7 @@
             <i v-if="isFolder" :class="{folder: isFolder, details_open: open, details_close: !open}" class="icon"></i>
             <div class="content">
                 <div data-url="{{model.link}}"  class="details" :class="{details_folder: isFolder, details_open: open, details_close: !open}" @click="toggle" @dblclick="changeType">
-                    <img v-if="!isFolder" class="gfavicon" src="https://www.google.com/s2/favicons?domain={{model.link}}" alt="">
+                    <img v-if="!isFolder" class="gfavicon" src="https://www.google.com/s2/favicons?domain={{model.favicon}}" alt="">
                     <div :class="header" class="header-link">
                         {{model.name}}
                         <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
